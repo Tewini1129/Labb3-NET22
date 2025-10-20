@@ -1,0 +1,119 @@
+﻿<UserControl x:Class="Labb3_NET22.View.UserControls.QuestionCreation"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:Labb3_NET22.View.UserControls"
+             mc:Ignorable="d" 
+             d:DesignHeight="450" d:DesignWidth="800">
+    <Grid>
+
+        <Grid.RowDefinitions>
+            <RowDefinition Height="20"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="20"/>
+        </Grid.RowDefinitions>
+
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="20"/>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="Auto"/>
+            <ColumnDefinition Width="Auto"/>
+            <ColumnDefinition Width="Auto"/>
+            <ColumnDefinition Width="Auto"/>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="20"/>
+        </Grid.ColumnDefinitions>
+        
+        
+        <!--Question-->
+        <Border Grid.Row="3" Grid.Column="3">
+            <TextBlock Text="Enter Question" FontSize="26" />
+        </Border>
+
+        <Border Grid.Row="4" Grid.Column="3" BorderThickness="2" BorderBrush="Black">
+            <TextBox x:Name="QuestionText" 
+                     AcceptsReturn="True" 
+                     TextWrapping="Wrap"
+                     FontSize="20"/>
+        </Border>
+        
+        <!--Theme-->
+        <Border Grid.Row="6" Grid.Column="3">
+            <ComboBox x:Name="CategoryComboBox" FontSize="18" SelectedIndex="0">
+                <ComboBoxItem Content="Select category" IsEnabled="False" Foreground="Gray"/>
+                <ComboBoxItem Content="History"/>
+                <ComboBoxItem Content="Sports"/>
+                <ComboBoxItem Content="Culture"/>
+                <ComboBoxItem Content="Shows And Movies"/>
+                <ComboBoxItem Content="Nature"/>
+                <ComboBoxItem Content="Pop Culture"/>
+                <ComboBoxItem Content="Other"/>
+            </ComboBox>
+        </Border>
+        
+
+        <!--Answers-->
+        <Border Grid.Row="7" Grid.Column="3">
+            <TextBlock Text="Enter First Answer" FontSize="24"/>
+        </Border>
+
+        <Border Grid.Row="8" Grid.Column="3" BorderThickness="2" BorderBrush="Black">
+            <TextBox x:Name="FirstAnswer" />
+        </Border>
+
+        <Border Grid.Row="9" Grid.Column="3">
+            <TextBlock Text="Enter Second Answer" FontSize="24"/>
+        </Border>
+
+        <Border Grid.Row="10" Grid.Column="3" BorderThickness="2" BorderBrush="Black">
+            <TextBox x:Name="SecondAnswer" />
+        </Border>
+
+        <Border Grid.Row="11" Grid.Column="3">
+            <TextBlock Text="Enter Third Answer" FontSize="24"/>
+        </Border>
+
+        <Border Grid.Row="12" Grid.Column="3" BorderThickness="2" BorderBrush="Black">
+            <TextBox x:Name="ThirdAnswer" />
+        </Border>
+
+        <!--Correct Answer-->
+        <Border Grid.Row="13" Grid.Column="3">
+            <TextBlock Text="Which is the correct Answer" FontSize="24"/>
+        </Border>
+
+        <Border Grid.Row="14" Grid.Column="3" BorderThickness="2" BorderBrush="Black">
+            <Button x:Name="FirstAnswerBtn" Content="First" Width="98" HorizontalAlignment="Left" Click="FirstClick"/>
+        </Border>
+
+        <Border Grid.Row="14" Grid.Column="3" BorderThickness="2" BorderBrush="Black">
+            <Button x:Name="SecondAnswerBtn" Content="Second" Width="98" HorizontalAlignment="Center" Click="SecondClick"/>
+        </Border>
+
+        <Border Grid.Row="14" Grid.Column="3" BorderThickness="2" BorderBrush="Black">
+            <Button x:Name="ThirdAnswerBtn" Content="Third" Width="98" HorizontalAlignment="Right" Click="ThirdClick"/>
+        </Border>
+        
+        <!--Save Question-->
+        <Border Grid.Row="15" Grid.Column="3">
+            <Button x:Name="SaveQuestionBtn" Content="Save Question" Click="SaveQuestionClick"/>
+        </Border>
+        
+    </Grid>
+</UserControl>

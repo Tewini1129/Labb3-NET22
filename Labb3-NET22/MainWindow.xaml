@@ -8,7 +8,45 @@
         mc:Ignorable="d"
         Title="MainWindow" Height="450" Width="800">
     <Grid>
-        <userControls:MainMenu />
+        <Grid.RowDefinitions>
+            <RowDefinition Height="20"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="20"/>
+        </Grid.RowDefinitions>
+
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="20"/>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="Auto"/>
+            <ColumnDefinition Width="Auto"/>
+            <ColumnDefinition Width="Auto"/>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="20"/>
+        </Grid.ColumnDefinitions>
+
+        <Border Grid.Column="3" Grid.Row="1" BorderThickness="6" BorderBrush="Black">
+            <TextBlock Text="Welcome To Quiz-Masters" FontSize="20"/>
+        </Border>
+
+        <Border Grid.Column="3" Grid.Row="3" BorderThickness="2" BorderBrush="Black">
+            <Button x:Name="PlayBtn" Content="Play a Quiz" Click="PlayClick" FontSize="16"/>
+        </Border>
+
+        <Border Grid.Column="3" Grid.Row="4" BorderThickness="2" BorderBrush="Black">
+            <Button x:Name="CreateBtn" Content="Create Quiz" Click="CreateClick" FontSize="16"/>
+        </Border>
+
+        <Border Grid.Column="3" Grid.Row="5" BorderThickness="2" BorderBrush="Black">
+            <Button x:Name="EditBtn" Content="Edit a Quiz" Click="EditClick" FontSize="16"/>
+        </Border>
+
+
+
     </Grid>
     
 </Window>

@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Labb3_NET22.View;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -27,6 +28,21 @@ namespace Labb3_NET22
             
 
             InitializeComponent();
+        }
+        public void PlayClick(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        public void CreateClick(object sender, RoutedEventArgs e)
+        {
+            CreateWindow CreateQuiz = new CreateWindow();
+            CreateQuiz.Show();
+        }
+
+        public void EditClick(object sender, RoutedEventArgs e)
+        {
+
         }
     }
 }

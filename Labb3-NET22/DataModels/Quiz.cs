@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
+using Labb3_NET22.View;
 
 
 namespace Labb3_NET22.DataModels;   
@@ -8,49 +10,42 @@ public class Quiz
 {
     private IEnumerable<Question> _questions;
     private string _title = string.Empty;
+
     public IEnumerable<Question> Questions => _questions;
     public string Title => _title;
 
-    public Quiz()
+    public Quiz(string titel)
     {
+        _title = titel;
         _questions = new List<Question>();
     }
 
+
     public Question GetRandomQuestion()
     {
-        throw new NotImplementedException("A random Question needs to be returned here!");
+        Random random = new Random();
+        int randomNr = random.Next(0, Questions.Count());
+        return Questions.ElementAt(randomNr);
     }
 
-    public void AddQuestion(string statement, int correctAnswer, params string[] answers)
+
+    public void AddQuestion(Question q)
     {
-        Console.WriteLine("----<=== Create Questions ===>----\n");
-
-        Console.Write("\n\nQuestion Statement: ");
-        //Question.Categories Category = (Console.ReadLine());
-
-        Console.Write("\n\nQuestion Statement: ");
-        string Statement = Console.ReadLine();
-
-        Console.Write("\n\nAnswer 1: ");
-        string A1 = Console.ReadLine();
-
-        Console.Write("\n\nAnswer 2: ");
-        string A2 = Console.ReadLine();
-
-        Console.Write("\n\nAnswer 3: ");
-        string A3 = Console.ReadLine();
-
-        string[] Answers = [A1, A2, A3];
-
-        Console.Write("\n\nWhich answer is the correct answer: ");
-        int CorrectAnswer = int.Parse(Console.ReadLine());
-
-        Question q = new Question(Question.Categories.History,Statement, Answers, CorrectAnswer);
+        var Update = _questions.ToList();
+        Update.Add(q);
+        _questions = Update;
     }
+
 
     public void RemoveQuestion(int index)
     {
         throw new NotImplementedException("Question at requested index need to be removed here!");
+    }
+
+
+    public void RenameQuiz(string NewTitle)
+    {
+        _title = NewTitle;
     }
 
 

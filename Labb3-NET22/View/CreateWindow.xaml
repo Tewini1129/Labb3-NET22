@@ -4,12 +4,56 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Labb3_NET22.View"
-        xmlns:userControls="clr-namespace:Labb3_NET22.View.UserControls"
         mc:Ignorable="d"
         Title="CreateWindow" Height="450" Width="800">
     <Grid>
-        <userControls:CreateQuiz/>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="20"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="20"/>
+        </Grid.RowDefinitions>
+
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="20"/>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="20"/>
+            <ColumnDefinition Width="170"/>
+            <ColumnDefinition Width="20"/>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="20"/>
+        </Grid.ColumnDefinitions>
+
+        <!-- Name Quiz-->
+        <Border Grid.Row="1" Grid.Column="2" Grid.ColumnSpan="3">
+            <TextBlock Text="Title" HorizontalAlignment="Center" FontSize="30"/>
+        </Border>
+
+        <Border Grid.Row="2" Grid.Column="2" Grid.ColumnSpan="3" BorderThickness="2" BorderBrush="Black">
+            <TextBox x:Name="QuizTitel" FontSize="22"/>
+        </Border>
+
+
+        <Border Grid.Row="8" Grid.Column="3">
+            <Button x:Name="CreateQuizBtn" Content="Create Quiz" Click="CreateQuizClick"/>
+        </Border>
+
+
         
+
     </Grid>
 
     

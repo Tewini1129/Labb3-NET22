@@ -1,0 +1,86 @@
+﻿<Window x:Class="Labb3_NET22.View.EditWindow1"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:Labb3_NET22.View"
+        mc:Ignorable="d"
+        Title="EditWindow1" Height="450" Width="800">
+    <Grid>
+
+        <Grid.RowDefinitions>
+            <RowDefinition Height="20"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="20"/>
+        </Grid.RowDefinitions>
+
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="20"/>
+            <ColumnDefinition Width="Auto"/>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="Auto"/>
+            <ColumnDefinition Width="20"/>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="Auto"/>
+            <ColumnDefinition Width="20"/>
+        </Grid.ColumnDefinitions>
+        
+        
+        <!--Name of Quiz-->
+        <Border Grid.Row="9" Grid.Column="1">
+            <TextBlock Text="Editing" FontSize="16"/>
+        </Border>
+
+        <Border Grid.Row="10" Grid.Column="2">
+            <TextBlock x:Name="EditingTitle" Text="" FontSize="20" HorizontalAlignment="Left" VerticalAlignment="Top"/>
+        </Border>
+
+        
+        <!--Add Question-->
+        <Border Grid.Row="6" Grid.Column="3">
+            <Button x:Name="AddQuestionBtn" Content="+ Add Questions" Click="AddQuestionClick" FontSize="18"/>
+        </Border>
+
+        <Border Grid.Row="7" Grid.Column="3">
+            <Button Content="Delete Question" FontSize="18"/>
+        </Border>
+        
+        <!--Rename Title-->
+        <Border Grid.Row="5" Grid.Column="3">
+            <Button x:Name="RenameBtn" Content="Rename Titel" Click="RenameClick" FontSize="18"/>
+        </Border>
+        
+        
+        
+        <!--List of Questions-->
+        <Border Grid.Row="2" Grid.Column="5" Grid.ColumnSpan="2">
+            <TextBlock x:Name="AmountOfQuestions" Text="All Questions - "/>
+        </Border>
+
+        <Border Grid.Row="3" Grid.Column="5" Grid.ColumnSpan="2">
+            <ListBox x:Name="QuestionsListBox" FontSize="14"/>
+        </Border>
+
+
+
+        <!--Delete & Save -->
+        <Border Grid.Row="9" Grid.Column="6">
+            <Button x:Name="SaveQuizBtn" Content="Save Quiz" Click="SaveQuizClick"/>
+        </Border>
+
+        <Border Grid.Row="10" Grid.Column="6">
+            <Button x:Name="DeleteQuizBtn" Content="Delete Quiz" Click="DeleteQuizClick"/>
+        </Border>
+
+    </Grid>
+</Window>

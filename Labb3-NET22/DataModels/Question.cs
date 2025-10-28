@@ -1,4 +1,7 @@
-﻿namespace Labb3_NET22.DataModels;
+﻿using System;
+using System.Windows.Media.Imaging;
+
+namespace Labb3_NET22.DataModels;
 
 public class Question
 {
@@ -10,12 +13,14 @@ public class Question
         History,
         Sports,
         Culture,
-        ShowsAndMovies,
+        Tv,
         Nature,
         PopCulture,
         Other
     };
     public Categories Category;
+    public string? ImageUrl { get; set; }
+    public BitmapImage? Image { get; set; }
 
     public Question(Categories category,string statement, string[] answers, int correctAnswer)
     {
@@ -23,6 +28,22 @@ public class Question
         Statement = statement;
         Answers = answers;
         CorrectAnswer = correctAnswer;
+        
+        
+        if(!string.IsNullOrWhiteSpace(ImageUrl))
+        {
+            try
+            {
+                Image = new BitmapImage(new Uri(ImageUrl, UriKind.Absolute));
+            }
+            catch
+            {
+
+            }
+        }
+
+
+
 
 
     }

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -20,13 +21,16 @@ namespace Labb3_NET22.View
     /// </summary>
     public partial class EditWindow1 : Window
     {
-        public Quiz NewQuiz;
+        public int QuestionCount { get; set; }
+        public Quiz NewQuiz { get; set; }
         public EditWindow1(Quiz newQuiz)
         {
             InitializeComponent();
             NewQuiz = newQuiz;
             EditingTitle.Text = newQuiz.Title;
             QuestionsListBox.ItemsSource = NewQuiz.Questions;
+            QuestionCount = newQuiz.Questions.Count();
+            AmountOfQuestions.Text = $"All Questions - currently {QuestionCount} Questions";
         }
         public void AddQuestionClick(object sender, RoutedEventArgs e)
         {
@@ -35,7 +39,7 @@ namespace Labb3_NET22.View
             QuestionsListBox.ItemsSource = null;
             QuestionsListBox.ItemsSource = NewQuiz.Questions;
             AmountOfQuestions.Text = null;
-            string QuestionCount = (NewQuiz.Questions.Count().ToString());
+            QuestionCount = (NewQuiz.Questions.Count());
             AmountOfQuestions.Text = $"All Questions - currently {QuestionCount} Questions";
 
 
@@ -48,12 +52,34 @@ namespace Labb3_NET22.View
             EditingTitle.Text = NewQuiz.Title;
         }
 
-        public void SaveQuizClick(object sender, RoutedEventArgs e)
+        public void EditQuestion_Click(object sender, MouseButtonEventArgs e)
         {
+            if(QuestionsListBox.SelectedItem is Question selectedQuestion)
+            {
+                QuestionCreationWindow EditQuestion = new QuestionCreationWindow(NewQuiz, selectedQuestion);
+                EditQuestion.ShowDialog();
 
+            }
+
+        }
+
+        private async void SaveQuizClick(object sender, RoutedEventArgs e)
+        {
+            try
+            {
+                await QuizStorage.SaveQuizAsync(NewQuiz);
+                MessageBox.Show("Quiz saved successfully!", "Saved", MessageBoxButton.OK, MessageBoxImage.Information);
+                Close();
+            }
+            catch
+            {
+                MessageBox.Show("Failed to save Quiz", "Failed", MessageBoxButton.OK, MessageBoxImage.Error);
+            }
         }
         public void DeleteQuizClick(object sender, RoutedEventArgs e)
         {
+            QuizStorage.DeleteQuiz(NewQuiz);
+            Close();
 
         }
     }

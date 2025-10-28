@@ -20,11 +20,14 @@ namespace Labb3_NET22.View
     /// </summary>
     public partial class QuestionCreationWindow : Window
     {
-        public Question.Categories Category;
-        public string Statement;
-        public string[] Answers;
-        public int CorrectAnswer;
-        Quiz NewQuiz;
+        public Question.Categories Category { get; set; }
+        public string Statement { get; set; }
+        public string[] Answers { get; set; }
+        public int CorrectAnswer { get; set; }
+        Quiz NewQuiz { get; set; }
+        public string? imageUrl { get; set; }
+
+
         public QuestionCreationWindow(Quiz newQuiz)
         {
             InitializeComponent();
@@ -32,53 +35,133 @@ namespace Labb3_NET22.View
 
         }
 
-        public void FirstClick(object sender, RoutedEventArgs e)
+        public QuestionCreationWindow(Quiz newQuiz, Question q)
         {
-            CorrectAnswer = 1;
-            FirstAnswerBtn.Background = new SolidColorBrush(Colors.Green);
-
-            SecondAnswerBtn.Background = new SolidColorBrush(Colors.Red);
-            ThirdAnswerBtn.Background = new SolidColorBrush(Colors.Red);
-        }
-        public void SecondClick(object sender, RoutedEventArgs e)
-        {
-            CorrectAnswer = 2;
-            SecondAnswerBtn.Background = new SolidColorBrush(Colors.Green);
-
-            FirstAnswerBtn.Background = new SolidColorBrush(Colors.Red);
-            ThirdAnswerBtn.Background = new SolidColorBrush(Colors.Red);
-
-        }
+            InitializeComponent();
+            NewQuiz = newQuiz;
+            QuestionText.Text = q.Statement;
+            if(q.ImageUrl != null)
+            {
+                ImageUrlBox.Text = q.ImageUrl;
+            }
+            CategoryComboBox.SelectedItem = q.Category;
+            FirstAnswer.Text = q.Answers[0];
+            SecondAnswer.Text = q.Answers[1];
+            ThirdAnswer.Text = q.Answers[2];
+            CorrectAnswer = q.CorrectAnswer;
 
 
-        public void ThirdClick(object sender, RoutedEventArgs e)
-        {
-            CorrectAnswer = 3;
-            ThirdAnswerBtn.Background = new SolidColorBrush(Colors.Green);
 
-            FirstAnswerBtn.Background = new SolidColorBrush(Colors.Red);
-            SecondAnswerBtn.Background = new SolidColorBrush(Colors.Red);
         }
 
-        public void SaveQuestionClick(object sender, RoutedEventArgs e)
-        {
 
-            if(QuestionText.Text != "")
-            { 
-                Category = (Question.Categories)Enum.Parse(
-                    typeof(Question.Categories),
-                    (CategoryComboBox.SelectedItem as ComboBoxItem)?.Content.ToString()
-                    );
-                Statement = QuestionText.Text;
-                Answers = [FirstAnswer.Text, SecondAnswer.Text, ThirdAnswer.Text];
-                Question q = new Question(Category, Statement, Answers, CorrectAnswer);
-                NewQuiz.AddQuestion(q);
-                Close();
+
+        public void CorrectAnswer_Click(object sender, RoutedEventArgs e)
+        {
+            Button ClickedButton = sender as Button;
+            CorrectAnswer = int.Parse(ClickedButton.Tag.ToString());
+
+            var Buttons = new List<Button>() { FirstAnswerBtn, SecondAnswerBtn, ThirdAnswerBtn };
+
+            foreach(Button b in Buttons)
+            {
+                b.Background = b == ClickedButton
+                    ? new SolidColorBrush(Colors.LightGreen)
+                    : new SolidColorBrush(Colors.Red);
+            }
+            
+        }
+        
+
+
+        private void PreviewImage(object sender, TextChangedEventArgs e)
+        {
+            if(Uri.TryCreate(ImageUrlBox.Text, UriKind.Absolute, out Uri? uri))
+            {
+                try
+                {
+                    ImagePreviewBox.Source = new BitmapImage(uri);
+                }
+                catch
+                {
+                    ImagePreviewBox.Source = null;
+                }
             }
             else
             {
+                ImagePreviewBox.Source = null;
+            }
+        }
+
+
+
+
+        public void SaveQuestionClick(object sender, RoutedEventArgs e)
+        {
+            if ((Category.ToString() == "Select category") ||
+                (QuestionText.Text == "")||
+                (FirstAnswer.Text == "")||
+                (SecondAnswer.Text == "")||
+                (ThirdAnswer.Text == "")||
+                (CorrectAnswer < 0))
+            {
+                var result = MessageBox.Show(
+                    "You must fill in Everything",
+                    "Something is Empty",
+                    MessageBoxButton.OK,
+                    MessageBoxImage.Error
+                );
+            }
+            else
+            {
+                if(ImageUrlBox.Text != "")
+                {
+                    imageUrl = ImageUrlBox.Text;
+                }
+                Category = (Question.Categories)Enum.Parse(
+                typeof(Question.Categories),
+                (CategoryComboBox.SelectedItem as ComboBoxItem)?.Content.ToString()
+                );
+                Statement = QuestionText.Text;
+                Answers = [FirstAnswer.Text, SecondAnswer.Text, ThirdAnswer.Text];
+                Question q = new Question(Category, Statement, Answers, CorrectAnswer);
+                q.ImageUrl = imageUrl;
+                NewQuiz.AddQuestion(q);
+                Close();
+
+            }
+        
+        }
+
+
+        public void DeleteQuestion_Click(object sender, RoutedEventArgs e)
+        {
+            if (Window.GetWindow(this) is EditWindow1 parentWindow)
+            {
+
+                if (parentWindow.QuestionsListBox.SelectedItem is Question selectedQuestion)
+                {
+                    var result = MessageBox.Show(
+                        $"Are you sure you want to delete this question:\n\n\"{selectedQuestion.Statement}\"?",
+                        "Delete Question",
+                        MessageBoxButton.YesNo,
+                        MessageBoxImage.Question);
+
+                    if (result == MessageBoxResult.Yes)
+                    {
+                        int i = NewQuiz.Questions
+                            .ToList()
+                            .IndexOf(selectedQuestion);
+                        NewQuiz.RemoveQuestion(i);
+                        parentWindow.QuestionsListBox.ItemsSource = null;
+                        parentWindow.QuestionsListBox.ItemsSource = NewQuiz.updatedList;
+                        int questionsCount = NewQuiz.Questions.Count();
+                        parentWindow.AmountOfQuestions.Text = $"All Questions - currently {questionsCount} Questions";
+                    }
+                }
                 Close();
             }
+
         }
     }
 }

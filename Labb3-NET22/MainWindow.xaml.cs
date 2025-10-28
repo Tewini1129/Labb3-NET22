@@ -1,4 +1,5 @@
-﻿using Labb3_NET22.View;
+﻿using Labb3_NET22.DataModels;
+using Labb3_NET22.View;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -31,7 +32,14 @@ namespace Labb3_NET22
         }
         public void PlayClick(object sender, RoutedEventArgs e)
         {
-
+            ChooseQuizWindow1 ChooseQuiz = new();
+            ChooseQuiz.ShowDialog();
+            if (ChooseQuiz.selectedQuiz != null)
+            {
+                Quiz ChosenQuiz = ChooseQuiz.selectedQuiz;
+                PlayQuizWindow Play = new PlayQuizWindow(ChosenQuiz);
+                Play.ShowDialog();
+            }
         }
 
         public void CreateClick(object sender, RoutedEventArgs e)
@@ -42,7 +50,14 @@ namespace Labb3_NET22
 
         public void EditClick(object sender, RoutedEventArgs e)
         {
-
+            ChooseQuizWindow1 Choose = new();
+            Choose.ShowDialog();
+            if(Choose.selectedQuiz != null)
+            {
+                Quiz ChosenQuiz = Choose.selectedQuiz;
+                EditWindow1 edit = new EditWindow1(ChosenQuiz);
+                edit.ShowDialog();
+            }
         }
     }
 }

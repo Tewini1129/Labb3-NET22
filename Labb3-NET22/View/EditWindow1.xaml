@@ -6,6 +6,10 @@
         xmlns:local="clr-namespace:Labb3_NET22.View"
         mc:Ignorable="d"
         Title="EditWindow1" Height="450" Width="800">
+    <Window.Background>
+        <ImageBrush ImageSource="/Images/QuizBackground.jpg"
+        Stretch="UniformToFill"/>
+    </Window.Background>
     <Grid>
 
         <Grid.RowDefinitions>
@@ -17,9 +21,9 @@
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
             <RowDefinition Height="*"/>
-            <RowDefinition Height="Auto"/>
-            <RowDefinition Height="Auto"/>
             <RowDefinition Height="*"/>
             <RowDefinition Height="20"/>
         </Grid.RowDefinitions>
@@ -37,50 +41,86 @@
         
         
         <!--Name of Quiz-->
-        <Border Grid.Row="9" Grid.Column="1">
-            <TextBlock Text="Editing" FontSize="16"/>
+        <Border Grid.Row="9" Grid.Column="1" 
+                Background="#AA000000" 
+                Padding="10" 
+                CornerRadius="10">
+
+            <TextBlock Text="Editing" 
+                       FontSize="16"
+                       Foreground="GhostWhite"/>
         </Border>
 
-        <Border Grid.Row="10" Grid.Column="2">
-            <TextBlock x:Name="EditingTitle" Text="" FontSize="20" HorizontalAlignment="Left" VerticalAlignment="Top"/>
+        <Border Grid.Row="10" Grid.Column="2" 
+                Background="#AA000000" 
+                Padding="10" 
+                CornerRadius="10">
+
+            <TextBlock x:Name="EditingTitle" 
+                       Text="" 
+                       FontSize="20" 
+                       HorizontalAlignment="Left" 
+                       VerticalAlignment="Top"
+                       Foreground="GhostWhite"/>
         </Border>
 
         
         <!--Add Question-->
         <Border Grid.Row="6" Grid.Column="3">
-            <Button x:Name="AddQuestionBtn" Content="+ Add Questions" Click="AddQuestionClick" FontSize="18"/>
+            <Button x:Name="AddQuestionBtn" 
+                    Content="+ Add Questions" 
+                    FontSize="18"
+                    Click="AddQuestionClick"
+                    Background="DarkOliveGreen"/>
+            
         </Border>
 
-        <Border Grid.Row="7" Grid.Column="3">
-            <Button Content="Delete Question" FontSize="18"/>
-        </Border>
-        
         <!--Rename Title-->
         <Border Grid.Row="5" Grid.Column="3">
-            <Button x:Name="RenameBtn" Content="Rename Titel" Click="RenameClick" FontSize="18"/>
+            <Button x:Name="RenameBtn" 
+                    Content="Rename Titel" 
+                    FontSize="18"
+                    Click="RenameClick"
+                    Background="DarkOliveGreen"/>
         </Border>
-        
-        
-        
-        <!--List of Questions-->
-        <Border Grid.Row="2" Grid.Column="5" Grid.ColumnSpan="2">
-            <TextBlock x:Name="AmountOfQuestions" Text="All Questions - "/>
-        </Border>
-
-        <Border Grid.Row="3" Grid.Column="5" Grid.ColumnSpan="2">
-            <ListBox x:Name="QuestionsListBox" FontSize="14"/>
-        </Border>
-
-
 
         <!--Delete & Save -->
-        <Border Grid.Row="9" Grid.Column="6">
-            <Button x:Name="SaveQuizBtn" Content="Save Quiz" Click="SaveQuizClick"/>
+        <Border Grid.Row="8" Grid.Column="3">
+            <Button x:Name="SaveQuizBtn" 
+             Content="Save Quiz"
+             FontSize="18"
+             Click="SaveQuizClick"
+             Background="DarkOliveGreen"/>
         </Border>
 
-        <Border Grid.Row="10" Grid.Column="6">
-            <Button x:Name="DeleteQuizBtn" Content="Delete Quiz" Click="DeleteQuizClick"/>
+        <Border Grid.Row="9" Grid.Column="3">
+            <Button x:Name="DeleteQuizBtn" 
+             Content="Delete Quiz" 
+             FontSize="18"
+             Click="DeleteQuizClick"
+                    Background="DarkOliveGreen"/>
         </Border>
+
+
+
+        <!--List of Questions-->
+        <Border Grid.Row="2" Grid.Column="5" Grid.ColumnSpan="2">
+            <TextBlock x:Name="AmountOfQuestions" 
+                       Text="All Questions - "
+                       Background="DarkOliveGreen"/>
+        </Border>
+
+        <!--Edit Question-->
+        <Border Grid.Row="3" Grid.Column="5" Grid.ColumnSpan="2">
+            <ListBox x:Name="QuestionsListBox" 
+                     MouseDoubleClick="EditQuestion_Click"
+                     FontSize="14"
+                     Background="DarkOliveGreen"/>
+        </Border>
+
+
+
+       
 
     </Grid>
 </Window>

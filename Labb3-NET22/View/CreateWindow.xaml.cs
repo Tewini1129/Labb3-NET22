@@ -30,6 +30,7 @@ namespace Labb3_NET22.View
             NewQuiz.RenameQuiz(Title);
             EditWindow1 EditNewQuiz = new(NewQuiz);
             EditNewQuiz.Show();
+            Close();
         }
         
     }

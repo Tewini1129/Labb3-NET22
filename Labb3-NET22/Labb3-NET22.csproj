@@ -9,7 +9,13 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Folder Include="DataModels\" />
+    <None Remove="Images\QuizBackground.jpg" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Resource Include="Images\QuizBackground.jpg">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Resource>
   </ItemGroup>
 
 </Project>

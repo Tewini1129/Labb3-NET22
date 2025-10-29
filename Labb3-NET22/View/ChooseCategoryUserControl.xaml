@@ -12,6 +12,7 @@
             <RowDefinition Height="*"/>
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
             <RowDefinition Height="*"/>
             <RowDefinition Height="20"/>
         </Grid.RowDefinitions>
@@ -50,6 +51,12 @@
                      Background="DarkOliveGreen"/>
 
         </Border>
+
+        <Button Grid.Row="4"
+                Grid.Column="2"
+                Content="All categories"
+                Click="MixedCategoriesBtn_Click"
+                Background="DarkOliveGreen"/>
     </Grid>
 </UserControl>
 

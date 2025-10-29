@@ -51,6 +51,8 @@ namespace Labb3_NET22.View
             var parentWindow = Window.GetWindow(this) as PlayQuizWindow;
             parentWindow.RemoveOverlay();
             Visibility = Visibility.Collapsed;
+            parentWindow.ViewModel.SetNewQuestion(quiz.GetRandomQuestion());
+
         }
     }
 }

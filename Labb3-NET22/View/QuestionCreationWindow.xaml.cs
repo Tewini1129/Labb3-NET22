@@ -26,19 +26,23 @@ namespace Labb3_NET22.View
         public int CorrectAnswer { get; set; }
         Quiz NewQuiz { get; set; }
         public string? imageUrl { get; set; }
+        public EditWindow1 ParentWindow { get; set; }
 
 
-        public QuestionCreationWindow(Quiz newQuiz)
+        public QuestionCreationWindow(Quiz newQuiz, EditWindow1 parentWindow)
         {
             InitializeComponent();
             NewQuiz = newQuiz;
+            ParentWindow = parentWindow;
+           
 
         }
 
-        public QuestionCreationWindow(Quiz newQuiz, Question q)
+        public QuestionCreationWindow(Quiz newQuiz, Question q, EditWindow1 parentWindow)
         {
             InitializeComponent();
             NewQuiz = newQuiz;
+            ParentWindow = parentWindow;
             QuestionText.Text = q.Statement;
             if(q.ImageUrl != null)
             {
@@ -49,7 +53,6 @@ namespace Labb3_NET22.View
             SecondAnswer.Text = q.Answers[1];
             ThirdAnswer.Text = q.Answers[2];
             CorrectAnswer = q.CorrectAnswer;
-
 
 
         }
@@ -136,31 +139,28 @@ namespace Labb3_NET22.View
 
         public void DeleteQuestion_Click(object sender, RoutedEventArgs e)
         {
-            if (Window.GetWindow(this) is EditWindow1 parentWindow)
+            if (ParentWindow.QuestionsListBox.SelectedItem is Question selectedQuestion)
             {
+                var result = MessageBox.Show(
+                    $"Are you sure you want to delete this question:\n\n\"{selectedQuestion.Statement}\"?",
+                    "Delete Question",
+                    MessageBoxButton.YesNo,
+                    MessageBoxImage.Question);
 
-                if (parentWindow.QuestionsListBox.SelectedItem is Question selectedQuestion)
+                if (result == MessageBoxResult.Yes)
                 {
-                    var result = MessageBox.Show(
-                        $"Are you sure you want to delete this question:\n\n\"{selectedQuestion.Statement}\"?",
-                        "Delete Question",
-                        MessageBoxButton.YesNo,
-                        MessageBoxImage.Question);
-
-                    if (result == MessageBoxResult.Yes)
-                    {
-                        int i = NewQuiz.Questions
-                            .ToList()
-                            .IndexOf(selectedQuestion);
-                        NewQuiz.RemoveQuestion(i);
-                        parentWindow.QuestionsListBox.ItemsSource = null;
-                        parentWindow.QuestionsListBox.ItemsSource = NewQuiz.updatedList;
-                        int questionsCount = NewQuiz.Questions.Count();
-                        parentWindow.AmountOfQuestions.Text = $"All Questions - currently {questionsCount} Questions";
-                    }
+                    int i = NewQuiz.Questions
+                        .ToList()
+                        .IndexOf(selectedQuestion);
+                    NewQuiz.RemoveQuestion(i);
+                    ParentWindow.QuestionsListBox.ItemsSource = null;
+                    ParentWindow.QuestionsListBox.ItemsSource = NewQuiz.updatedList;
+                    int questionsCount = NewQuiz.Questions.Count();
+                    ParentWindow.AmountOfQuestions.Text = $"All Questions - currently {questionsCount} Questions";
                 }
-                Close();
             }
+        
+                Close();
 
         }
     }

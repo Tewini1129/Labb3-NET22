@@ -23,6 +23,8 @@ namespace Labb3_NET22.View
     {
         public int QuestionCount { get; set; }
         public Quiz NewQuiz { get; set; }
+
+
         public EditWindow1(Quiz newQuiz)
         {
             InitializeComponent();
@@ -32,9 +34,11 @@ namespace Labb3_NET22.View
             QuestionCount = newQuiz.Questions.Count();
             AmountOfQuestions.Text = $"All Questions - currently {QuestionCount} Questions";
         }
+
+
         public void AddQuestionClick(object sender, RoutedEventArgs e)
         {
-            var QCW = new QuestionCreationWindow(NewQuiz);
+            var QCW = new QuestionCreationWindow(NewQuiz, this);
             QCW.ShowDialog();
             QuestionsListBox.ItemsSource = null;
             QuestionsListBox.ItemsSource = NewQuiz.Questions;
@@ -44,6 +48,8 @@ namespace Labb3_NET22.View
 
 
         }
+
+
         public void RenameClick(object sender, RoutedEventArgs e)
         {
             RenameWindow1 Rename = new(NewQuiz);
@@ -52,16 +58,18 @@ namespace Labb3_NET22.View
             EditingTitle.Text = NewQuiz.Title;
         }
 
+
         public void EditQuestion_Click(object sender, MouseButtonEventArgs e)
         {
             if(QuestionsListBox.SelectedItem is Question selectedQuestion)
             {
-                QuestionCreationWindow EditQuestion = new QuestionCreationWindow(NewQuiz, selectedQuestion);
+                QuestionCreationWindow EditQuestion = new QuestionCreationWindow(NewQuiz, selectedQuestion, this);
                 EditQuestion.ShowDialog();
 
             }
 
         }
+
 
         private async void SaveQuizClick(object sender, RoutedEventArgs e)
         {
@@ -76,6 +84,8 @@ namespace Labb3_NET22.View
                 MessageBox.Show("Failed to save Quiz", "Failed", MessageBoxButton.OK, MessageBoxImage.Error);
             }
         }
+
+
         public void DeleteQuizClick(object sender, RoutedEventArgs e)
         {
             QuizStorage.DeleteQuiz(NewQuiz);

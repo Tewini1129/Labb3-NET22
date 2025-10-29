@@ -93,6 +93,8 @@
                    Grid.Column="2"
                    Text="{Binding CurrentQuestion.Statement}"
                    FontSize="18"
+                   TextWrapping="Wrap"
+                   Width="250"
                    FontWeight="Bold"
                    Foreground="GhostWhite"/>
         </Border>

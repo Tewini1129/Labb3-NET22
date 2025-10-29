@@ -96,7 +96,7 @@ namespace Labb3_NET22.DataModels
             }
             else
             {
-                MessageBox.Show("Path not found", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                MessageBox.Show("Quiz has not been saved yet", "info", MessageBoxButton.OK, MessageBoxImage.Information);
             }
 
 

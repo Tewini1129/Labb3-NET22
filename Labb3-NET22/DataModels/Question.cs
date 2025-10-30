@@ -10,6 +10,7 @@ public class Question
     public int CorrectAnswer { get; }
     public enum Categories
     {
+        None,
         History,
         Sports,
         Culture,

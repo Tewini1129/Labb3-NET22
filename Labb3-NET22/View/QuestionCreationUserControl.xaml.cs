@@ -18,7 +18,7 @@ namespace Labb3_NET22.View
     /// <summary>
     /// Interaction logic for QuestionCreationWindow.xaml
     /// </summary>
-    public partial class QuestionCreationWindow : Window
+    public partial class QuestionCreationUserControl : UserControl
     {
         public Question.Categories Category { get; set; }
         public string Statement { get; set; }
@@ -26,23 +26,29 @@ namespace Labb3_NET22.View
         public int CorrectAnswer { get; set; }
         Quiz NewQuiz { get; set; }
         public string? imageUrl { get; set; }
-        public EditWindow1 ParentWindow { get; set; }
+
+        public EditUserControl ParentEditor;
+        public MainWindow ParentWindow { get; set; }
 
 
-        public QuestionCreationWindow(Quiz newQuiz, EditWindow1 parentWindow)
+        public QuestionCreationUserControl(Quiz newQuiz, MainWindow parentWindow, EditUserControl parentEditor)
         {
             InitializeComponent();
             NewQuiz = newQuiz;
             ParentWindow = parentWindow;
+            ParentEditor = parentEditor;
            
 
         }
 
-        public QuestionCreationWindow(Quiz newQuiz, Question q, EditWindow1 parentWindow)
+        
+
+        public QuestionCreationUserControl(Quiz newQuiz, Question q, MainWindow parentWindow, EditUserControl parentEditor)
         {
             InitializeComponent();
             NewQuiz = newQuiz;
             ParentWindow = parentWindow;
+            ParentEditor = parentEditor;
             QuestionText.Text = q.Statement;
             if(q.ImageUrl != null)
             {
@@ -101,12 +107,19 @@ namespace Labb3_NET22.View
 
         public void SaveQuestionClick(object sender, RoutedEventArgs e)
         {
-            if ((Category.ToString() == "Select category") ||
+            Question.Categories selectedCategory = (Question.Categories)Enum.Parse(
+                typeof(Question.Categories),
+                (CategoryComboBox.SelectedItem as ComboBoxItem)?.Content.ToString()
+                );
+
+
+
+            if ((selectedCategory.ToString() == "None") ||
                 (QuestionText.Text == "")||
                 (FirstAnswer.Text == "")||
                 (SecondAnswer.Text == "")||
                 (ThirdAnswer.Text == "")||
-                (CorrectAnswer < 0))
+                (CorrectAnswer <= 0))
             {
                 var result = MessageBox.Show(
                     "You must fill in Everything",
@@ -129,8 +142,18 @@ namespace Labb3_NET22.View
                 Answers = [FirstAnswer.Text, SecondAnswer.Text, ThirdAnswer.Text];
                 Question q = new Question(Category, Statement, Answers, CorrectAnswer);
                 q.ImageUrl = imageUrl;
+
+                for (int i = 0; i < NewQuiz.Questions.Count(); i++)
+                {
+                    if (NewQuiz.Questions.ToList()[i].Statement == q.Statement)
+                    {
+                        NewQuiz.RemoveQuestion(i);
+                    }
+                }
+
+
                 NewQuiz.AddQuestion(q);
-                Close();
+                ParentWindow.ShowEditQuiz(NewQuiz);
 
             }
         
@@ -139,7 +162,7 @@ namespace Labb3_NET22.View
 
         public void DeleteQuestion_Click(object sender, RoutedEventArgs e)
         {
-            if (ParentWindow.QuestionsListBox.SelectedItem is Question selectedQuestion)
+            if (ParentEditor.QuestionsListBox.SelectedItem is Question selectedQuestion)
             {
                 var result = MessageBox.Show(
                     $"Are you sure you want to delete this question:\n\n\"{selectedQuestion.Statement}\"?",
@@ -153,14 +176,15 @@ namespace Labb3_NET22.View
                         .ToList()
                         .IndexOf(selectedQuestion);
                     NewQuiz.RemoveQuestion(i);
-                    ParentWindow.QuestionsListBox.ItemsSource = null;
-                    ParentWindow.QuestionsListBox.ItemsSource = NewQuiz.updatedList;
+
+                    ParentEditor.QuestionsListBox.ItemsSource = null;
+                    ParentEditor.QuestionsListBox.ItemsSource = NewQuiz.updatedList;
                     int questionsCount = NewQuiz.Questions.Count();
-                    ParentWindow.AmountOfQuestions.Text = $"All Questions - currently {questionsCount} Questions";
+                    ParentEditor.AmountOfQuestions.Text = $"All Questions - currently {questionsCount} Questions";
                 }
             }
-        
-                Close();
+
+            ParentWindow.ShowEditQuiz(NewQuiz);
 
         }
     }

@@ -19,9 +19,23 @@ namespace Labb3_NET22.View
 {
     public partial class ScoreScreenUserControl : UserControl
     {
-        public ScoreScreenUserControl()
+        public MainWindow Parent { get; set; }
+        PlayQuizViewModel Vm { get; set; }
+
+
+        //public ScoreScreenUserControl()
+        //{
+        //    InitializeComponent();
+        //    Parent = Window.GetWindow(this) as MainWindow;
+        //}
+
+
+        public ScoreScreenUserControl(PlayQuizViewModel vm,MainWindow parent)
         {
             InitializeComponent();
+            Vm = vm;
+            Parent = parent;
+            LoadViewModel(vm);
         }
 
         public void LoadViewModel(PlayQuizViewModel viewModel)
@@ -34,9 +48,7 @@ namespace Labb3_NET22.View
 
         public void CloseQuiz_Click(object sender, RoutedEventArgs e)
         {
-            Window parentWindow = Window.GetWindow(this);
-            if(parentWindow != null)
-            parentWindow.Close();
+            Parent.ShowHome();
         }
 
 

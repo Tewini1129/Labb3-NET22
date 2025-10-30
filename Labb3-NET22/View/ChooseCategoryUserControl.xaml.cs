@@ -19,14 +19,31 @@ namespace Labb3_NET22.View
 {
     public partial class ChooseCategoryUserControl : UserControl
     {
+        public MainWindow Parent { get; set; }
         public Quiz quiz { get; set; }
+
+
         public ChooseCategoryUserControl()
         {
             InitializeComponent();
         }
+
+        public ChooseCategoryUserControl(MainWindow parent, Quiz newQuiz)
+        {
+            InitializeComponent();
+            Parent = parent;
+            quiz = newQuiz;
+            LoadCategories();
+
+        }
         public void LoadCategories()
         {
-            var quizCategories = quiz.Questions.GroupBy(q => q.Category)
+            if(quiz == null)
+            {
+                return;
+            }
+            var quizCategories = quiz.Questions
+                .GroupBy(q => q.Category)
                 .Select(g => g.Key)
                 .ToList();
             
@@ -35,23 +52,19 @@ namespace Labb3_NET22.View
         }
 
 
-        private void CategoriesListBox_Click(object sender, MouseButtonEventArgs e)
+        public void CategoriesListBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            quiz.ChosenCategory = (Categories)CategoriesListBox.SelectedItem;
-            var parentWindow = Window.GetWindow(this) as PlayQuizWindow;
-            parentWindow.RemoveOverlay();
-            Visibility = Visibility.Collapsed;
-            parentWindow.ViewModel.SetNewQuestion(quiz.GetRandomQuestion());
+            if(CategoriesListBox.SelectedItem is Categories selectedCategory)
+            {
+                quiz.ChosenCategory = selectedCategory;
+                Parent.ShowPlayQuiz(quiz);
+            }
         }
-
 
         private void MixedCategoriesBtn_Click(object sender, RoutedEventArgs e)
         {
             quiz.ChosenCategory = null;
-            var parentWindow = Window.GetWindow(this) as PlayQuizWindow;
-            parentWindow.RemoveOverlay();
-            Visibility = Visibility.Collapsed;
-            parentWindow.ViewModel.SetNewQuestion(quiz.GetRandomQuestion());
+            Parent.ShowPlayQuiz(quiz);
 
         }
     }

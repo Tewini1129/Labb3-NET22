@@ -16,18 +16,17 @@ using Labb3_NET22.DataModels;
 
 namespace Labb3_NET22.View
 {
-    /// <summary>
-    /// Interaction logic for EditWindow1.xaml
-    /// </summary>
-    public partial class EditWindow1 : Window
+    public partial class EditUserControl : UserControl
     {
+        public MainWindow Parent { get; set; }
         public int QuestionCount { get; set; }
         public Quiz NewQuiz { get; set; }
 
 
-        public EditWindow1(Quiz newQuiz)
+        public EditUserControl(Quiz newQuiz, MainWindow parent)
         {
             InitializeComponent();
+            Parent = parent;
             NewQuiz = newQuiz;
             EditingTitle.Text = newQuiz.Title;
             QuestionsListBox.ItemsSource = NewQuiz.Questions;
@@ -38,8 +37,7 @@ namespace Labb3_NET22.View
 
         public void AddQuestionClick(object sender, RoutedEventArgs e)
         {
-            var QCW = new QuestionCreationWindow(NewQuiz, this);
-            QCW.ShowDialog();
+            Parent.ShowQuestionCreation(NewQuiz, this);
             QuestionsListBox.ItemsSource = null;
             QuestionsListBox.ItemsSource = NewQuiz.Questions;
             AmountOfQuestions.Text = null;
@@ -61,10 +59,10 @@ namespace Labb3_NET22.View
 
         public void EditQuestion_Click(object sender, MouseButtonEventArgs e)
         {
-            if(QuestionsListBox.SelectedItem is Question selectedQuestion)
+            if(QuestionsListBox.SelectedItem is Question question)
             {
-                QuestionCreationWindow EditQuestion = new QuestionCreationWindow(NewQuiz, selectedQuestion, this);
-                EditQuestion.ShowDialog();
+                var questionControl = new QuestionCreationUserControl(NewQuiz, Parent, this);
+                Parent.ShowQuestionCreation(NewQuiz,question, this);
 
             }
 
@@ -77,7 +75,7 @@ namespace Labb3_NET22.View
             {
                 await QuizStorage.SaveQuizAsync(NewQuiz);
                 MessageBox.Show("Quiz saved successfully!", "Saved", MessageBoxButton.OK, MessageBoxImage.Information);
-                Close();
+                Parent.ShowHome();
             }
             catch
             {
@@ -89,7 +87,7 @@ namespace Labb3_NET22.View
         public void DeleteQuizClick(object sender, RoutedEventArgs e)
         {
             QuizStorage.DeleteQuiz(NewQuiz);
-            Close();
+            Parent.ShowHome();
 
         }
     }

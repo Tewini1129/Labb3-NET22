@@ -26,38 +26,78 @@ namespace Labb3_NET22
     {
         public MainWindow()
         {
-            
-
             InitializeComponent();
+            LoadSavedQuizzes();
+            ShowHome();
         }
-        public void PlayClick(object sender, RoutedEventArgs e)
+
+
+        public async void LoadSavedQuizzes()
         {
-            ChooseQuizWindow1 ChooseQuiz = new();
-            ChooseQuiz.ShowDialog();
-            if (ChooseQuiz.selectedQuiz != null)
+            var files = QuizStorage.GetAllSavedQuizzes();
+            foreach(var file in files)
             {
-                Quiz ChosenQuiz = ChooseQuiz.selectedQuiz;
-                PlayQuizWindow Play = new PlayQuizWindow(ChosenQuiz);
-                Play.ShowDialog();
+                await QuizStorage.LoadQuizAsync(file);
             }
         }
 
-        public void CreateClick(object sender, RoutedEventArgs e)
+
+        public void ShowHome()
         {
-            CreateWindow CreateQuiz = new CreateWindow();
-            CreateQuiz.Show();
+            MainContent.Content = new HomeUserControl(this);
         }
 
-        public void EditClick(object sender, RoutedEventArgs e)
+        public void ShowCreateQuiz()
         {
-            ChooseQuizWindow1 Choose = new();
-            Choose.ShowDialog();
-            if(Choose.selectedQuiz != null)
+            MainContent.Content = new CreateUserControl(this);
+        }
+
+        public void ShowQuestionCreation(Quiz quiz, EditUserControl edit)
+        {
+            MainContent.Content = new QuestionCreationUserControl(quiz, this, edit);
+        }
+
+
+        public void ShowQuestionCreation(Quiz quiz,Question q, EditUserControl edit)
+        {
+            MainContent.Content = new QuestionCreationUserControl(quiz, q, this, edit);
+        }
+
+
+        public void ShowChooseQuiz(Action<Quiz> onChosenQuiz)
+        {
+            var chooseControl = new ChooseQuizUserControl(this);
+            chooseControl.ChosenQuiz += quiz =>
             {
-                Quiz ChosenQuiz = Choose.selectedQuiz;
-                EditWindow1 edit = new EditWindow1(ChosenQuiz);
-                edit.ShowDialog();
-            }
+                onChosenQuiz(quiz);
+            };
+
+            MainContent.Content = chooseControl;
+        }
+
+
+        public void ShowChooseCategory(Quiz quiz)
+        {
+            MainContent.Content = new ChooseCategoryUserControl(this, quiz);
+        }
+
+
+        public void ShowEditQuiz(Quiz ChosenQuiz)
+        {
+            MainContent.Content = new EditUserControl(ChosenQuiz, this);
+        }
+
+
+        public void ShowPlayQuiz(Quiz ChosenQuiz)
+        {
+            MainContent.Content = new PlayQuizUserControl(ChosenQuiz,this);
+        }
+       
+
+        public void ShowScoreScreen(PlayQuizViewModel vm, PlayQuizUserControl source)
+        {
+
+            MainContent.Content = new ScoreScreenUserControl(vm,this);
         }
     }
 }

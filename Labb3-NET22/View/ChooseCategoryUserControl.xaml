@@ -47,7 +47,7 @@
         <Border Grid.Row="3" Grid.Column="2">
             
             <ListBox x:Name="CategoriesListBox"
-                     MouseDoubleClick="CategoriesListBox_Click"
+                     SelectionChanged="CategoriesListBox_SelectionChanged"
                      Background="DarkOliveGreen"/>
 
         </Border>

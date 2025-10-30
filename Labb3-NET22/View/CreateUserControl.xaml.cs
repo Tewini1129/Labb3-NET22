@@ -16,21 +16,23 @@ using Labb3_NET22.DataModels;
 namespace Labb3_NET22.View
 {
    
-    public partial class CreateWindow : Window
+    public partial class CreateUserControl : UserControl
     {
+        public MainWindow Parent { get; set; }
         public Quiz NewQuiz = new("");
 
-        public CreateWindow()
+        public CreateUserControl(MainWindow parent)
         {
             InitializeComponent();
+            Parent = parent;
         }
+
+
         public void CreateQuizClick(object sender, RoutedEventArgs e)
         {
             string Title = QuizTitel.Text;
             NewQuiz.RenameQuiz(Title);
-            EditWindow1 EditNewQuiz = new(NewQuiz);
-            EditNewQuiz.Show();
-            Close();
+            Parent.ShowEditQuiz(NewQuiz);
         }
         
     }

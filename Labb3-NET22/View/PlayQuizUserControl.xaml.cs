@@ -15,8 +15,9 @@ using System.Windows.Shapes;
 
 namespace Labb3_NET22.View
 {
-    public partial class PlayQuizWindow : Window
+    public partial class PlayQuizUserControl : UserControl
     {
+        public MainWindow Parent { get; set; }
         public int SelectedAnswer;
         public Quiz newQuiz;
         public Question CurrentQuestion { get; set; }
@@ -25,22 +26,19 @@ namespace Labb3_NET22.View
         
 
 
-        public PlayQuizWindow(Quiz quiz)
+        public PlayQuizUserControl(Quiz quiz, MainWindow parent)
         {
             InitializeComponent();
+            Parent = parent;
             newQuiz = quiz;
             ViewModel = new(quiz);
             DataContext = ViewModel;
-            ChooseCategoryScreen.quiz = newQuiz;
-            ChooseCategoryScreen.LoadCategories();
             CurrentQuestion = ViewModel.CurrentQuestion;
+
         }
 
 
-        public void RemoveOverlay()
-        {
-            ChooseCategoryOverlay.Visibility = Visibility.Collapsed;
-        }
+        
 
         public void AnswerButton_Click(object sender, RoutedEventArgs e)
         {
@@ -85,10 +83,9 @@ namespace Labb3_NET22.View
 
         public void ShowScoreScreen()
         {
+            
             ViewModel.FeedBack = ViewModel.Judgement();
-            FinalScoreScreen.LoadViewModel(ViewModel);
-            ScoreScreenOverlay.Visibility = Visibility.Visible;
-
+            Parent.ShowScoreScreen(ViewModel,this);
             Answer1Btn.IsEnabled = false;
             Answer2Btn.IsEnabled = false;
             Answer3Btn.IsEnabled = false;

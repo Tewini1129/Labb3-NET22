@@ -83,6 +83,7 @@ namespace Labb3_NET22
         {
             quiz = chosenQuiz;
             SelectedAnswer = -1;
+            CurrentQuestion = quiz.GetRandomQuestion();
             
         }
         public event PropertyChangedEventHandler PropertyChanged;
